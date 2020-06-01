@@ -38,6 +38,7 @@ async function fetchCountries() {
             id: numericCode,
             name: translations.pt,
             population,
+            formattedPopulation: formatNumber(population),
             flag
         };
     });
@@ -61,7 +62,7 @@ function renderCountryList() {
     });
 
     allCountries.forEach(country => {
-        const { name, flag, id, population } = country;
+        const { name, flag, id, population, formattedPopulation } = country;
 
         const countryHTML = `
         <div class="country">
@@ -74,7 +75,7 @@ function renderCountryList() {
             <div>
                 <ul>
                     <li>${name}</li>
-                    <li>${population}</li>
+                    <li>${formattedPopulation}</li>
                 </ul>
             </div>
         </div>
@@ -94,7 +95,7 @@ function renderFavorits() {
     });
 
     favoriteCountries.forEach(country => {
-        const { name, flag, id, population } = country;
+        const { name, flag, id, population, formattedPopulation } = country;
 
         const favoriteCountryHTML = `
         <div class="country">
@@ -107,7 +108,7 @@ function renderFavorits() {
             <div>
                 <ul>
                     <li>${name}</li>
-                    <li>${population}</li>
+                    <li>${formattedPopulation}</li>
                 </ul>
             </div>
         </div>
@@ -132,8 +133,8 @@ function renderSummary() {
         return accumulator + current.population;
     }, 0)
 
-    totalPopulationList.textContent = totalPopulation;
-    totalPopulationFavorites.textContent = totalFavorits;
+    totalPopulationList.textContent = formatNumber(totalPopulation);
+    totalPopulationFavorites.textContent = formatNumber(totalFavorits);
 }
 
 function handleCountryButtons() {
@@ -166,4 +167,8 @@ function removeFromFavorites(id) {
     favoriteCountries = favoriteCountries.filter(country => country.id !== id);
 
     render();
+}
+
+function formatNumber(number) {
+    return numberFormat.format(number);
 }
