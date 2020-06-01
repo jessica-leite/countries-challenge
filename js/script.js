@@ -78,12 +78,54 @@ function renderCountryList() {
 
         countriesHTML += countryHTML;
     });
-
+    countriesHTML += '</div>';
     tabCountries.innerHTML = countriesHTML;
 }
 
-function renderFavorits() { }
+function renderFavorits() {
+    let favoritesHTML = '<div>';
 
-function renderSummary() { }
+    favoriteCountries.forEach(country => {
+        const { name, flag, id, population } = country;
+
+        const favoriteCountryHTML = `
+        <div class="country">
+            <div>
+                <a id="${id}" class="waves-effect waves-light btn  red darken-4">-</a>
+            </div>
+            <div>
+                <img src="${flag}" alt="${name}">
+            </div>
+            <div>
+                <ul>
+                    <li>${name}</li>
+                    <li>${population}</li>
+                </ul>
+            </div>
+        </div>
+        `;
+
+        favoritesHTML += favoriteCountryHTML;
+    });
+
+    favoritesHTML += '</div>';
+    tabFavorites.innerHTML = favoritesHTML;
+}
+
+function renderSummary() {
+    countCountries.textContent = allCountries.length;
+    countFavorites.textContent = favoriteCountries.length;
+
+    const totalPopulation = allCountries.reduce((accumulator, current) => {
+        return accumulator + current.population;
+    }, 0)
+
+    const totalFavorits = favoriteCountries.reduce((accumulator, current) => {
+        return accumulator + current.population;
+    }, 0)
+
+    totalPopulationList.textContent = totalPopulation;
+    totalPopulationFavorites.textContent = totalFavorits;
+}
 
 function handleCountryButtons() { }
